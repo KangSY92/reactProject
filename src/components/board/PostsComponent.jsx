@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
-import { getList } from "../../api/board/ListApi"
+import {useSelector} from 'react-redux';
 
-export default function() {
+export default function PostsComponent() {
 
-    const [list, setList] = useState([]);
+    //config/redux.js에서 만든 액션의 상태(변수들) 가져오기
+    const {posts, pi} = useSelector((state) => state.boardList);
 
-    const fetchList =() => {
-        const response = getList();
-        response.then(data => setList(data));
-    }
-
-    useEffect(() => {
-        fetchList();
-    })
+    
 
     return (
         <>
-        <section>
         <div className="table-container">
             <table>
+            <thead>
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
@@ -26,19 +19,21 @@ export default function() {
                     <th>작성일</th>
                     <th>조회수</th>
                 </tr>
-                {list.map((item, index) => (
-                <tr key = {index}>
-                    <td>0</td>
+            </thead>
+            <tbody>
+                {Array.isArray(posts) && posts.map((item, index) => (
+                    <tr key = {index}>
+                    <td>{pi.row - index}</td>
                     <td>{item.title}</td>
                     <td>{item.author}</td>
                     <td>{item.createdDate}</td>
                     <td>{item.viewCount}</td>
                 </tr>
                 ))}
+                </tbody>
             </table>
-            <button className="add-button" onClick="window.location.href = 'enrollForm.html'">등록</button>
+            <button className="add-button">등록</button>
         </div>
-        </section>
         </>
     )
 }

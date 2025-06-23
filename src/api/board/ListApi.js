@@ -1,12 +1,12 @@
 import axionInstance from '../../config/axios'
 
-export const getList = async() => {
+export const getList = async({currentPage, category, text}) => {
     try {
         const response = await axionInstance.get('/api/board/list', {
             params : {
-                category : 'title',
-                text : '',
-                currentPage : 1
+                category : category,
+                text : text,
+                currentPage : currentPage
             }
         });
         return response.data;
